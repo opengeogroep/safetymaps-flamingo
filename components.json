@@ -1,0 +1,28 @@
+[
+    {
+        "className": "viewer.components.safetymapsFlamingo",
+        "name": "safetymaps-flamingo",
+        "shortName": "safetymaps",
+        "sources": [
+            "libs/jquery-1.11.0/jquery-1.11.0.min.js",
+            "module/api.js",
+            "module/clustering-layer.js",
+            "module/object-layers.js",
+            "js/safetymapsFlamingo.js",
+            "js/safetymapsCreator.js"
+        ],
+        "configSource": [
+            "ConfigObject.js",
+            "Dbk-config.js"
+        ],
+        "restrictions": [
+            "content"
+        ],
+        "closureCompilerSafe": true,
+        "notInCombinationWith": [
+            "viewer.mapcomponents.FlamingoMap"
+        ],
+        "singleton": true,
+        "showHelp": true
+    }
+]
