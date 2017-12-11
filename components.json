@@ -9,6 +9,7 @@
             "shared/utils.js",
             "module/clustering-layer.js",
             "module/object-layers.js",
+            "js/gui/safetymapsWindow.js",
             "js/safetymapsFlamingo.js",
             "js/safetymapsCreator.js"
         ],
