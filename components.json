@@ -6,6 +6,7 @@
         "sources": [
             "libs/jquery-1.11.0/jquery-1.11.0.min.js",
             "module/api.js",
+            "shared/utils.js",
             "module/clustering-layer.js",
             "module/object-layers.js",
             "js/safetymapsFlamingo.js",
