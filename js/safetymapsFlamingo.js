@@ -10,7 +10,9 @@ Ext.define("viewer.components.safetymapsFlamingo", {
     config: {},
     viewerController: null,
     map: null,
+    basePath: "",
     imagePath: "",
+    clusterWindow: null,
 
     constructor: function (conf) {
         var me = this;
@@ -29,14 +31,30 @@ Ext.define("viewer.components.safetymapsFlamingo", {
 
         safetymaps.creator.api.basePath = conf.dataPath + "/"; // path to safetymaps-server
         if (actionBeans && actionBeans["componentresource"]) {
-            me.imagePath = actionBeans["componentresource"];
-            me.imagePath = Ext.String.urlAppend(me.imagePath, "className=" + Ext.getClass(me).getName());
-            me.imagePath = Ext.String.urlAppend(me.imagePath, "resource=");
+            me.basePath = actionBeans["componentresource"];
+            me.basePath = Ext.String.urlAppend(me.basePath, "className=" + Ext.getClass(me).getName());
+            me.basePath = Ext.String.urlAppend(me.basePath, "resource=");
         } else {
-            me.imagePath = "";
+            me.basePath = "";
         }
-        me.imagePath += "/module/assets/";
+        console.log(me.basePath);
+        me.imagePath = me.basePath + "/module/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
+
+        var cssPath = me.basePath.replace("resource=", "mimeType=text/css&resource=");
+        me.loadCssFile(cssPath+"libs/bootstrap-3.2.0-dist/css/bootstrap.min.css");
+        me.loadCssFile(cssPath +"css/dbk.css");
+
+        me.clusterWindow = Ext.create("viewer.components.safetymapsWindow", {id: "infopanel"});
+
         safetymaps.safetymapsCreator.constructor(me);
+    },
+
+    loadCssFile: function (filename) {
+        var fileref = document.createElement("link");
+        fileref.setAttribute("rel", "stylesheet");
+        fileref.setAttribute("type", "text/css");
+        fileref.setAttribute("href", filename);
+        document.getElementsByTagName("head")[0].appendChild(fileref);
     }
 });
