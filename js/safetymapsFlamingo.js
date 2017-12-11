@@ -5,36 +5,36 @@
  */
 
 
-Ext.define ("viewer.components.safetymapsFlamingo",{
+Ext.define("viewer.components.safetymapsFlamingo", {
     extend: "viewer.components.Component",
     config: {},
     viewerController: null,
     map: null,
-    imagePath:"",
-    
-    constructor: function(conf){
-       var me = this;
-       
-       viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
+    imagePath: "",
 
-       this.initConfig(conf);
-       
-       me.initApplication(conf);
+    constructor: function (conf) {
+        var me = this;
+
+        viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
+
+        this.initConfig(conf);
+
+        me.initApplication(conf);
     },
-    
-    initApplication: function(conf){
+
+    initApplication: function (conf) {
         var me = this;
         me.viewerController = me.config.viewerController;
         me.map = me.viewerController.mapComponent.getMap();
-        
-        safetymaps.creator.api.basePath = conf.dataPath+"/"; // path to safetymaps-server
-        if (actionBeans && actionBeans["componentresource"]){
-            me.imagePath=actionBeans["componentresource"];
-            me.imagePath=Ext.String.urlAppend(me.imagePath,"className="+Ext.getClass(me).getName());
-            me.imagePath=Ext.String.urlAppend(me.imagePath,"resource=");
+
+        safetymaps.creator.api.basePath = conf.dataPath + "/"; // path to safetymaps-server
+        if (actionBeans && actionBeans["componentresource"]) {
+            me.imagePath = actionBeans["componentresource"];
+            me.imagePath = Ext.String.urlAppend(me.imagePath, "className=" + Ext.getClass(me).getName());
+            me.imagePath = Ext.String.urlAppend(me.imagePath, "resource=");
         } else {
             me.imagePath = "";
-        };
+        }
         me.imagePath += "/module/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
         safetymaps.safetymapsCreator.constructor(me);
