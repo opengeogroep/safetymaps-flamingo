@@ -85,9 +85,40 @@ safetymaps.safetymapsCreator = {
 
     clusterObjectClusterSelected: function (feature) {
         console.log("object_cluster_clicked", feature);
+        var me = this;
+        var item_ul = $('<ul id="dbklist" class="nav nav-pills nav-stacked"></ul>');
+
+        var currentCluster = feature.cluster.slice();
+
+        for (var i = 0; i < currentCluster.length; i++) {
+            var ret_title = $('<li></li>');
+            ret_title.append('<a id="' + currentCluster[i].attributes.id + '" href="#">' + currentCluster[i].attributes.label+'</a>');
+            item_ul.append(ret_title);
+        }
+        
+        this.conf.clusterWindow.window.update(item_ul.clone().wrap('<p>').parent().html());
+        this.conf.clusterWindow.window.show();
+        $("#dbklist").on("click", "a", function(e){
+            var feature = me.getFeatureFromCluster(e,currentCluster);
+            me.conf.clusterWindow.window.hide();
+            me.clusterObjectSelected(feature);
+        });
 
     },
-
+    
+    getFeatureFromCluster: function(e,cluster){
+        var feature = null;
+        
+        for(var i = 0; i<cluster.length;i++){
+            if(e.target.id === cluster[i].attributes.id.toString()){
+                feature = cluster[i];
+                return feature;
+            }
+        }
+        console.log("feature is null");
+        return feature;
+    },
+    
     clusterObjectSelected: function (feature) {
         var me = this;
 
