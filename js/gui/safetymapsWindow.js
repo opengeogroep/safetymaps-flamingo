@@ -7,6 +7,10 @@
 
 Ext.define("viewer.components.safetymapsWindow", {
     window: null,
+    options: {
+        height:600,
+        width:600
+    },
     constructor: function (config) {
 
         this.initConfig(config);
@@ -17,8 +21,8 @@ Ext.define("viewer.components.safetymapsWindow", {
         var me = this;
         this.window = Ext.create('Ext.window.Window', {
             title: id,
-            height: 600,
-            width: 600,
+            height: me.options.height,
+            width: me.options.width,
             layout: 'fit',
             resizable: true,
             closeAction: "hide",
@@ -28,29 +32,27 @@ Ext.define("viewer.components.safetymapsWindow", {
             listeners: {
                 hide: function () {
                     me.tab.removeAll();
+                },
+                show: function () {
+                    this.setX(window.innerWidth-me.options.width-25);
+                    this.setY(window.innerHeight-me.options.height-25);
                 }
             }
         });
     },
 
     createGrid: function (config, items, callback) {
-        var me = this;
         var store = Ext.create('Ext.data.Store', {
-            storeId: config.name + "Store",
-            fields: ['name'],
+            storeId: config.tabName + "Store",
+            fields: config.fields,
             data: items
         });
 
         var grid = Ext.create('Ext.grid.Panel', {
             forceFit: true,
-            title: config.name,
+            title: config.tabName,
             store: store,
-            flex: 1,
-            columns: [
-                {text: 'Name', dataIndex: 'name'
-
-                }
-            ],
+            columns: config.columns,
             listeners: {
                 itemclick: callback
             }
@@ -61,7 +63,7 @@ Ext.define("viewer.components.safetymapsWindow", {
     createTabs: function () {
         this.tab = Ext.create('Ext.TabPanel', {
             layout: 'fit',
-            autoScroll: true,
+            autoScroll: true
         });
         return this.tab;
     },
