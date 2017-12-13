@@ -18,7 +18,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         var me = this;
 
         viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
-
+               
         this.initConfig(conf);
 
         me.initApplication(conf);
@@ -37,6 +37,13 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         } else {
             me.basePath = "";
         }
+        
+        i18n.init({
+            lng: "nl",
+            debug: false,
+            resGetPath: me.basePath + "locales/__lng__/translation.json",
+            postProcess: "doReplacements"
+        });
         me.imagePath = me.basePath + "/module/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
 
