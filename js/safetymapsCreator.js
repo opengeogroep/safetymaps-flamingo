@@ -35,10 +35,8 @@ safetymaps.safetymapsCreator = {
         var pStyles = safetymaps.creator.api.getStyles();
         me.clusteringLayer = new safetymaps.ClusteringLayer(me.options);
         me.objectLayers = new safetymaps.creator.CreatorObjectLayers();
-        //me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers());
-
+        //me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers())
         me.createClusterLayer();
-
     },
 
     //creates the clusterLayer with the features and register for feature/cluster clicked event
@@ -63,6 +61,7 @@ safetymaps.safetymapsCreator = {
                         me.clusterObjectClusterSelected(features);
                     });
 
+                    safetymaps.search.createValues(features);
                 });
     },
 
@@ -86,39 +85,27 @@ safetymaps.safetymapsCreator = {
     clusterObjectClusterSelected: function (feature) {
         console.log("object_cluster_clicked", feature);
         var me = this;
-        var item_ul = $('<ul id="dbklist" class="nav nav-pills nav-stacked"></ul>');
+        //clear the window
+        this.conf.clusterWindow.tab.removeAll();
 
         var currentCluster = feature.cluster.slice();
-
+        var features = new Array();
         for (var i = 0; i < currentCluster.length; i++) {
-            var ret_title = $('<li></li>');
-            ret_title.append('<a id="' + currentCluster[i].attributes.id + '" href="#">' + currentCluster[i].attributes.label+'</a>');
-            item_ul.append(ret_title);
+            var obj = {name: currentCluster[i].attributes.label,
+                object: currentCluster[i]
+            };
+            features.push(obj);
         }
-        
-        this.conf.clusterWindow.window.update(item_ul.clone().wrap('<p>').parent().html());
+        var callback = {scope: me, fn: me.clusterListClicked};
+        this.conf.clusterWindow.createGrid({name: "cluster"}, features, callback);
         this.conf.clusterWindow.window.show();
-        $("#dbklist").on("click", "a", function(e){
-            var feature = me.getFeatureFromCluster(e,currentCluster);
-            me.conf.clusterWindow.window.hide();
-            me.clusterObjectSelected(feature);
-        });
+    },
 
+    clusterListClicked: function (gridview, row) {
+        this.conf.clusterWindow.window.hide();
+        this.clusterObjectSelected(row.data.object);
     },
-    
-    getFeatureFromCluster: function(e,cluster){
-        var feature = null;
-        
-        for(var i = 0; i<cluster.length;i++){
-            if(e.target.id === cluster[i].attributes.id.toString()){
-                feature = cluster[i];
-                return feature;
-            }
-        }
-        console.log("feature is null");
-        return feature;
-    },
-    
+
     clusterObjectSelected: function (feature) {
         var me = this;
 
