@@ -37,7 +37,6 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         } else {
             me.basePath = "";
         }
-        console.log(me.basePath);
         me.imagePath = me.basePath + "/module/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
 
@@ -48,6 +47,9 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.clusterWindow = Ext.create("viewer.components.safetymapsWindow", {id: "infopanel"});
 
         safetymaps.safetymapsCreator.constructor(me);
+        me.rgisterFlamingoSearchHandler();
+        safetymaps.search.constructor(me);
+
     },
 
     loadCssFile: function (filename) {
@@ -56,5 +58,22 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         fileref.setAttribute("type", "text/css");
         fileref.setAttribute("href", filename);
         document.getElementsByTagName("head")[0].appendChild(fileref);
+    },
+  
+    rgisterFlamingoSearchHandler: function(){
+        var me = this;
+        var searchComponents = this.config.viewerController.getComponentsByClassName("viewer.components.Search");
+        // Register to all search components.
+        for (var i = 0; i < searchComponents.length; i++) {
+            // Register extra info handler with callback.
+            var obj = {
+                instance: this,
+                title: "Digitale bereikbaarheidskaart"
+            };
+            searchComponents[i].addDynamicSearchEntry(obj, function (queryId, searchRequestId) {
+                console.log(queryId, searchRequestId);
+                return safetymaps.search.getSearchResult(queryId, searchRequestId);
+            });
+        };
     }
 });
