@@ -91,13 +91,15 @@ safetymaps.safetymapsCreator = {
         var currentCluster = feature.cluster.slice();
         var features = new Array();
         for (var i = 0; i < currentCluster.length; i++) {
-            var obj = {name: currentCluster[i].attributes.label,
+            var obj = {
+                name: currentCluster[i].attributes.label,
                 object: currentCluster[i]
             };
             features.push(obj);
         }
         var callback = {scope: me, fn: me.clusterListClicked};
-        this.conf.clusterWindow.createGrid({name: "cluster"}, features, callback);
+        var config = {tabName: "cluster", fields: ["name"], columns: [{text: 'Name', dataIndex: 'name'}]};
+        this.conf.clusterWindow.createGrid(config, features, callback);
         this.conf.clusterWindow.window.show();
     },
 
@@ -142,6 +144,7 @@ safetymaps.safetymapsCreator = {
         var me = this;
         try {
             me.objectLayers.addFeaturesForObject(object);
+            me.updateInfoWindow(object);
             me.selectedObject = object;
         } catch (error) {
             console.log("Error creating layers for object", object);
@@ -149,7 +152,13 @@ safetymaps.safetymapsCreator = {
                 console.log(error.stack);
             }
         }
+    },
+
+    updateInfoWindow: function (object) {
+        this.conf.clusterWindow.tab.removeAll();
+        safetymaps.safetymapsCreator.renderGeneral(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderExtra(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderNew(object, this.conf.clusterWindow);
+        this.conf.clusterWindow.window.show();
     }
-
-
 };
