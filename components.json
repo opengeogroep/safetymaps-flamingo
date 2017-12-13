@@ -4,15 +4,20 @@
         "name": "safetymaps-flamingo",
         "shortName": "safetymaps",
         "sources": [
+            "libs/i18next.js",
+            "libs/moment-with-locales.min.js",
+            "libs/mustache.min.js",
             "libs/jquery-1.11.0/jquery-1.11.0.min.js",
             "module/api.js",
             "shared/utils.js",
             "module/clustering-layer.js",
             "module/object-layers.js",
+            "module/object-info.js",
             "js/safetymapsSearch.js",
             "js/gui/safetymapsWindow.js",
             "js/safetymapsFlamingo.js",
-            "js/safetymapsCreator.js"
+            "js/safetymapsCreator.js",
+            "js/objectInfo.js"
         ],
         "configSource": [
             "ConfigObject.js",
