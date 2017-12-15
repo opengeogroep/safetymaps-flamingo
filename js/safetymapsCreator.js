@@ -157,8 +157,8 @@ safetymaps.safetymapsCreator = {
     updateInfoWindow: function (object) {
         this.conf.clusterWindow.tab.removeAll();
         safetymaps.safetymapsCreator.renderGeneral(object, this.conf.clusterWindow);
-        safetymaps.safetymapsCreator.renderExtra(object, this.conf.clusterWindow);
-        safetymaps.safetymapsCreator.renderNew(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderDetails(object, this.conf.clusterWindow);
         this.conf.clusterWindow.window.show();
     }
 };
