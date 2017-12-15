@@ -34,8 +34,8 @@ Ext.define("viewer.components.safetymapsWindow", {
                     me.tab.removeAll();
                 },
                 show: function () {
-                    this.setX(window.innerWidth-me.options.width-25);
-                    this.setY(window.innerHeight-me.options.height-25);
+                    this.setX(window.innerWidth-me.window.width-25);
+                    this.setY(window.innerHeight-me.window.height-25);
                 }
             }
         });
