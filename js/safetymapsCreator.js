@@ -159,6 +159,7 @@ safetymaps.safetymapsCreator = {
         safetymaps.safetymapsCreator.renderGeneral(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderDetails(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow);
         this.conf.clusterWindow.window.show();
     }
 };

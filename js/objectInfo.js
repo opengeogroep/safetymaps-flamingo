@@ -48,15 +48,11 @@ safetymaps.safetymapsCreator.renderDetails = function (object, window) {
                 values.push(row);
             }
         });
-
         var conf = {tabName: tab.name,
             fields: fields,
             columns: columns
         };
 
-        //var values = [
-        //{name: "formele naam", property: "object.formele_naam", extra: "hallo"},
-        //];
         window.createGrid(conf, values, {});
     }
 };
@@ -65,7 +61,7 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
     var rows = safetymaps.creator.renderContacts(object);
     var fields = [];
     var columns = [];
-    var values= [];
+    var values = [];
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
         if (i === 0) {
@@ -73,13 +69,11 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
                 fields.push(key);
                 columns.push({text: row[key], dataIndex: key});
             }
-        }else {
-            var obj ={};
-            console.log(row);
-            for(var key in row){
+        } else {
+            var obj = {};
+            for (var key in row) {
                 obj[key] = row[key];
             }
-            console.log(obj);
             values.push(obj);
         }
     }
@@ -87,6 +81,37 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
         fields: fields,
         columns: columns
     };
-    window.createGrid(conf, values, {});
+    if (values && values.length) {
+        window.createGrid(conf, values, {});
+    }
+};
+
+safetymaps.safetymapsCreator.renderSymbols = function (object, window) {
+    var rows = safetymaps.creator.renderSymbols(object);
+    var fields = [];
+    var columns = [];
+    var values = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (i === 0) {
+            for (var key in row) {
+                fields.push(key);
+                columns.push({text: row[key], dataIndex: key});
+            }
+        } else {
+            var obj = {};
+            for (var key in row) {
+                obj[key] = row[key];
+            }
+            values.push(obj);
+        }
+    }
+    var conf = {tabName: "creator.symbols",
+        fields: fields,
+        columns: columns
+    };
+    if (values && values.length) {
+        window.createGrid(conf, values, {});
+    }
 
 };
