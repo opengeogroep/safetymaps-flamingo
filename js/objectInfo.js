@@ -77,7 +77,7 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
             values.push(obj);
         }
     }
-    var conf = {tabName: "creator.contacts",
+    var conf = {tabName: i18n.t("creator.contacts"),
         fields: fields,
         columns: columns
     };
@@ -86,8 +86,16 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
     }
 };
 
-safetymaps.safetymapsCreator.renderSymbols = function (object, window) {
-    var rows = safetymaps.creator.renderSymbols(object);
+safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
+    var rows;
+    var name;
+    if (type === "normal") {
+        name = i18n.t("creator.symbols");
+        rows = safetymaps.creator.renderSymbols(object);
+    } else if (type === "danger") {
+        name = i18n.t("creator.symbols_danger");
+        rows = safetymaps.creator.renderDangerSymbols(object);
+    }
     var fields = [];
     var columns = [];
     var values = [];
@@ -106,7 +114,7 @@ safetymaps.safetymapsCreator.renderSymbols = function (object, window) {
             values.push(obj);
         }
     }
-    var conf = {tabName: "creator.symbols",
+    var conf = {tabName: name,
         fields: fields,
         columns: columns
     };
