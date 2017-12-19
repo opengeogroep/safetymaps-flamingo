@@ -18,7 +18,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         var me = this;
 
         viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
-               
+
         this.initConfig(conf);
 
         me.initApplication(conf);
@@ -37,7 +37,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         } else {
             me.basePath = "";
         }
-        
+
         i18n.init({
             lng: "nl",
             debug: false,
@@ -46,6 +46,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         });
         me.imagePath = me.basePath + "/module/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
+        safetymaps.creator.api.mediaPath = "https://vrz-acceptatie-mobiel.safetymaps.nl/media/";
 
         var cssPath = me.basePath.replace("resource=", "mimeType=text/css&resource=");
         me.loadCssFile(cssPath+"libs/bootstrap-3.2.0-dist/css/bootstrap.min.css");
@@ -66,7 +67,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         fileref.setAttribute("href", filename);
         document.getElementsByTagName("head")[0].appendChild(fileref);
     },
-  
+
     rgisterFlamingoSearchHandler: function(){
         var me = this;
         var searchComponents = this.config.viewerController.getComponentsByClassName("viewer.components.Search");
