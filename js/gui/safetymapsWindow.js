@@ -70,6 +70,16 @@ Ext.define("viewer.components.safetymapsWindow", {
 
     destroyGrid: function (id) {
 
-    }
+    },
 
+    createCarousel: function (data) {
+        var carousel = Ext.create('Ext.panel.Panel', {
+            title: i18n.t("creator.media"),
+            styleHtmlContent: true,
+            width: 200,
+            html: data[0].outerHTML
+
+        });
+        this.tab.add(carousel);
+    }
 });
