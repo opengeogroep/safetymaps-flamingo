@@ -86,6 +86,13 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
     }
 };
 
+safetymaps.safetymapsCreator.renderMedia = function (object, window) {
+    var carousel = safetymaps.creator.renderMedia(object);
+    if (carousel && carousel.length) {
+        window.createCarousel(carousel);
+    }
+};
+
 safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
     var rows;
     var name;
