@@ -18,14 +18,6 @@ safetymaps.search = {
         this.features = features;
     },
 
-//    createSearchGrid: function () {
-//        var me = this;
-//        var callback = {scope: me, fn: me.test};
-//        this.config.clusterWindow.createGrid({search: true, name: "search"}, me.values, callback);
-//        var store = Ext.getStore("searchStore");
-//        store.filter('name', 'van der');
-//    },
-
     checkFeatureForSearch: function (feature, searchResult, queryFields, queryFieldTypes, queryId, buffer) {
         //doet nu nog niks
     },
