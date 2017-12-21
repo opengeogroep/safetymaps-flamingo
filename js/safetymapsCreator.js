@@ -175,12 +175,14 @@ safetymaps.safetymapsCreator = {
     updateInfoWindow: function (object) {
         this.conf.clusterWindow.tab.removeAll();
         safetymaps.safetymapsCreator.renderGeneral(object, this.conf.clusterWindow);
-        safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderDetails(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
+        //todo: renderOccupancy
         safetymaps.safetymapsCreator.renderMedia(object, this.conf.clusterWindow);
+        //todo embedPDFs
+        safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "danger");
         safetymaps.safetymapsCreator.renderFloors(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "normal");
-        safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "danger");
         this.conf.clusterWindow.window.show();
     }
 };
