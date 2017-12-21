@@ -77,7 +77,6 @@ safetymaps.safetymapsCreator = {
         );
 
         me.conf.map.getFrameworkMap().addControl(me.selectControl);
-        ;
         me.selectControl.activate();
 
     },
@@ -108,20 +107,39 @@ safetymaps.safetymapsCreator = {
         this.clusterObjectSelected(row.data.object);
     },
 
+    floorClicked: function (gridview, row) {
+        var me = this;
+        var floor = row.data[0];
+        console.log("clicked floor" + floor);
+        $.each(row.data.object.verdiepingen, function (i, v) {
+            if (v.id !== row.data.object.id && v.bouwlaag === floor) {
+                me.selectObjectById(v.id);
+            }
+        });
+    },
+
     clusterObjectSelected: function (feature) {
+
+        this.selectedClusterFeature = feature;
+        this.selectObjectById(feature.attributes.id, {x: feature.geometry.x, y: feature.geometry.y});
+    },
+
+    selectObjectById: function (id, xyToZoom) {
         var me = this;
 
         // Unselect current, if any
         me.unselectObject();
 
-        this.selectedClusterFeature = feature;
+        if (xyToZoom) {
+            console.log("zooming to selected object at ", xyToZoom);
+            me.conf.map.getFrameworkMap().setCenter(new OpenLayers.LonLat(xyToZoom.x, xyToZoom.y), 13);
+        }
 
-        console.log("zooming to feature", feature.geometry);
-        me.conf.map.getFrameworkMap().setCenter(new OpenLayers.LonLat(feature.geometry.x, feature.geometry.y), 13);
-
-        safetymaps.creator.api.getObjectDetails(feature.attributes.id)
+        // Get object details
+        $("#creator_object_info").text(i18n.t("dialogs.busyloading") + "...");
+        safetymaps.creator.api.getObjectDetails(id)
                 .fail(function (msg) {
-                    // TODO
+                    $("#creator_object_info").text("Error: " + msg);
                 })
                 .done(function (object) {
                     me.selectedObjectDetailsReceived(object);
@@ -132,7 +150,7 @@ safetymaps.safetymapsCreator = {
         if (this.selectedObject) {
             this.objectLayers.removeAllFeatures();
 
-            if (this.selectedClusterFeature.layer) {
+            if (this.selectedClusterFeature && this.selectedClusterFeature.layer) {
                 this.selectControl.unselect(this.selectedClusterFeature);
             }
         }
@@ -160,6 +178,7 @@ safetymaps.safetymapsCreator = {
         safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderDetails(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderMedia(object, this.conf.clusterWindow);
+        safetymaps.safetymapsCreator.renderFloors(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "normal");
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "danger");
         this.conf.clusterWindow.window.show();

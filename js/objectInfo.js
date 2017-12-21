@@ -93,6 +93,37 @@ safetymaps.safetymapsCreator.renderMedia = function (object, window) {
     }
 };
 
+safetymaps.safetymapsCreator.renderFloors = function (object, window) {
+    var me = this;
+    var floors = safetymaps.creator.renderFloors(object);
+    var fields = [];
+    var columns = [];
+    var values = [];
+    for (var i = 0; i < floors.length; i++) {
+        var row = floors[i];
+        if (i === 0) {
+            for (var key in row) {
+                fields.push(key);
+                columns.push({text: row[key], dataIndex: key});
+            }
+        } else {
+            var obj = {object:object};
+            for (var key in row) {
+                obj[key] = row[key];
+            }
+            values.push(obj);
+        }
+    }
+    var conf = {tabName: i18n.t("creator.floors"),
+        fields: fields,
+        columns: columns
+    };
+    if (values && values.length) {
+        var callback = {scope: me, fn: me.floorClicked};
+        window.createGrid(conf, values, callback);
+    }
+};
+
 safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
     var rows;
     var name;
@@ -100,7 +131,7 @@ safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
         name = i18n.t("creator.symbols");
         rows = safetymaps.creator.renderSymbols(object);
     } else if (type === "danger") {
-        name = i18n.t("creator.symbols_danger");
+        name = i18n.t("creator.danger_symbols");
         rows = safetymaps.creator.renderDangerSymbols(object);
     }
     var fields = [];
