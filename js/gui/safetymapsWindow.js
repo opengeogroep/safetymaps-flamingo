@@ -8,13 +8,17 @@
 Ext.define("viewer.components.safetymapsWindow", {
     window: null,
     options: {
-        height:600,
-        width:600
+        height: 600,
+        width: 600
     },
     constructor: function (config) {
 
         this.initConfig(config);
-        this.config = config;
+        //this.options.merge(config);
+        this.options = $.extend({
+            height: 600,
+            width: 600
+        }, config);
         this.loadWindow(this.config.id);
     },
     loadWindow: function (id) {
@@ -28,14 +32,21 @@ Ext.define("viewer.components.safetymapsWindow", {
             closeAction: "hide",
             constrain: true,
             items: [
-                me.createTabs()],
+                me.createTabs()
+            ],
             listeners: {
                 hide: function () {
                     me.tab.removeAll();
                 },
                 show: function () {
-                    this.setX(window.innerWidth-me.window.width-25);
-                    this.setY(window.innerHeight-me.window.height-25);
+                    if (me.id === "infopanel") {
+                        this.setX(window.innerWidth - me.window.width - 25);
+                        this.setY(window.innerHeight - me.window.height - 25);
+                    } else {
+                        this.setX(150);
+                        this.setY(window.innerHeight - me.window.height);
+                    }
+
                 }
             }
         });
@@ -57,7 +68,12 @@ Ext.define("viewer.components.safetymapsWindow", {
                 itemclick: callback
             }
         });
-        this.tab.add(grid);
+        if (config.feature) {
+            this.tab.hide();
+            this.window.add(grid);
+        } else {
+            this.tab.add(grid);
+        }
     },
 
     createTabs: function () {
