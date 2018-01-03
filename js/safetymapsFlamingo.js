@@ -13,15 +13,14 @@ Ext.define("viewer.components.safetymapsFlamingo", {
     basePath: "",
     imagePath: "",
     clusterWindow: null,
+    featureInfoWindow: null,
 
     constructor: function (conf) {
-        var me = this;
-
         viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
 
         this.initConfig(conf);
 
-        me.initApplication(conf);
+        this.initApplication(conf);
     },
 
     initApplication: function (conf) {
@@ -53,7 +52,9 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.loadCssFile(cssPath +"css/dbk.css");
 
         me.clusterWindow = Ext.create("viewer.components.safetymapsWindow", {id: "infopanel"});
-
+        
+        me.featureInfoWindow = Ext.create("viewer.components.safetymapsWindow", {id: "featureInfo", height:300,width:700});
+        
         safetymaps.safetymapsCreator.constructor(me);
         me.rgisterFlamingoSearchHandler();
         safetymaps.search.constructor(me);
