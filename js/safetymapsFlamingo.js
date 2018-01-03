@@ -44,7 +44,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
             resGetPath: me.basePath + "locales/__lng__/translation.json",
             postProcess: "doReplacements"
         });
-        me.imagePath = me.basePath + "/module/assets/";
+        me.imagePath = me.basePath + "/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
         safetymaps.creator.api.mediaPath = "https://vrz-acceptatie-mobiel.safetymaps.nl/media/";
 
