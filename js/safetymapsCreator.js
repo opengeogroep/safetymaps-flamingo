@@ -11,6 +11,7 @@ safetymaps.safetymapsCreator = {
     conf: null,
     options: null,
     selectControl: null,
+    hoverControl: null,
     objectLayers: null,
     clusteringLayer: null,
     selectedObject: null,
@@ -51,7 +52,7 @@ safetymaps.safetymapsCreator = {
                     me.conf.map.getFrameworkMap().addLayer(me.clusteringLayer.layer);
                     me.clusteringLayer.addFeaturesToCluster(features);
 
-                    me.setClusterLayerControls();
+                    me.createControls();
 
                     me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers());
                     $(me.clusteringLayer).on("object_selected", function (event, feature) {
@@ -62,22 +63,46 @@ safetymaps.safetymapsCreator = {
                     });
 
                     safetymaps.search.createValues(features);
+                    me.activateControles();
                 });
     },
 
-    setClusterLayerControls: function () {
+    activateControles: function () {
         var me = this;
+        $.each(me.objectLayers.selectLayers, function (i, l) {
+            me.selectControl.layers.push(l);
+            me.hoverControl.layers.push(l);
+            l.events.register("featureselected", me, me.objectLayerFeatureSelected);
+            l.events.register("featureunselected", me, function () {
+                me.conf.featureInfoWindow.window.hide();
+            });
+        });
+        me.hoverControl.activate();
+        me.selectControl.activate();
+    },
+
+    createControls: function () {
+        var me = this;
+        me.hoverControl = new OpenLayers.Control.SelectFeature(
+                [],
+                {
+                    hover: true,
+                    highlightOnly: true,
+                    clickTolerance: 30,
+                    renderIntent: "temporary"
+                }
+        );
+        me.conf.map.getFrameworkMap().addControl(me.hoverControl);
+
         me.selectControl = new OpenLayers.Control.SelectFeature(
-                me.clusteringLayer.layer,
+                [me.clusteringLayer.layer],
                 {
                     clickout: true,
                     toggle: true,
                     multiple: false
                 }
         );
-
         me.conf.map.getFrameworkMap().addControl(me.selectControl);
-        me.selectControl.activate();
 
     },
 
@@ -170,6 +195,67 @@ safetymaps.safetymapsCreator = {
                 console.log(error.stack);
             }
         }
+    },
+
+    objectLayerFeatureSelected: function (e) {
+        var me = this;
+        var layer = e.feature.layer;
+        var f = e.feature.attributes;
+        me.conf.featureInfoWindow.window.removeAll();
+        if (layer === me.objectLayers.layerCommunicationCoverage) {
+            console.log("communication feature selected", e);
+            var img = safetymaps.creator.api.imagePath + (f.coverage ? "coverage" : "no_coverage") + ".png";
+            var colums = [
+                {text: '<b>' + i18n.t("creator.symbol_" + (f.coverage ? "" : "no_") + "communication_coverage") + '</b>', dataIndex: 1},
+                {text: '<b>' + i18n.t("dialogs.information") + '</b>', dataIndex: 2},
+                {text: '<b>' + i18n.t("creator.communication_alternative") + '</b>', dataIndex: 3}
+            ];
+            var values = [
+                {1: '<img class="thumb" src="' + img + '>', 2: Mustache.escape(f.info), 3: Mustache.escape(f.alternative)}
+            ];
+            var conf = {tabName: "", feature: true, fields: [], columns: columns};
+            me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
+            me.conf.featureInfoWindow.createGrid(conf, values, {});
+        } else if (layer === me.objectLayers.layerSymbols) {
+            console.log("symbol selected", e);
+            var img = safetymaps.creator.api.imagePath + 'symbols/' + f.code + '.png';
+            var columns = [
+                {text: '<b>' + i18n.t("creator.symbol_" + f.code) + '</b>', dataIndex: 1},
+                {text: '<b>' + i18n.t("dialogs.information") + '</b>', dataIndex: 2}
+            ];
+            var values = [
+                {1: '<img class="thumb" src="' + img + '" alt="' + f.code + '" title="' + f.code + '">', 2: Mustache.escape(f.description)}
+            ];
+            var conf = {tabName: "", feature: true, fields: [], columns: columns};
+            me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
+            me.conf.featureInfoWindow.createGrid(conf, values, {});
+        } else if (layer === me.objectLayers.layerDangerSymbols) {
+            console.log("danger symbol selected", e);
+            var columns = [
+                {text: '<b>' + i18n.t("creator.danger_symbol_icon") + '</b>', dataIndex: 1},
+                {text: '<b>' + i18n.t("creator.danger_symbol_hazard_identifier") + '</b>', dataIndex: 2},
+                {text: '<b>' + i18n.t("creator.danger_symbol_name") + '</b>', dataIndex: 3},
+                {text: '<b>' + i18n.t("creator.danger_symbol_quantity") + '</b>', dataIndex: 4},
+                {text: '<b>' + i18n.t("creator.danger_symbol_information") + '</b>', dataIndex: 5}
+            ];
+            var obj = JSON.parse(Mustache.render('{"1":' +
+                    '"<img style=' + "width: 20%" + ' src=' + "{{img}}" + ' alt=' + "{{symbolName}}" + ' title=' + "{{symbolName}}" + '>",' +
+                    '"2":' + '"<div class=' + "gevicode" + '>{{f.geviCode}}</div><div class=' + "unnummer" + '>{{f.unNr}}</div>",' +
+                    '"3":' + '"{{f.substance_name}}",' +
+                    '"4":' + '"{{f.amount}}",' +
+                    '"4":' + '"{{f.description}}"' +
+                    '}',
+                    {
+                        img: safetymaps.creator.api.imagePath + 'danger_symbols/' + f.symbol + '.png',
+                        symbolName: i18n.t("creator.danger_symbol_" + f.symbol),
+                        f: f
+                    }));
+            var values = [obj];
+            var conf = {tabName: "", feature: true, fields: [], columns: columns};
+            me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.danger_symbols"));
+            me.conf.featureInfoWindow.createGrid(conf, values, {});
+        }
+        this.conf.featureInfoWindow.window.show();
     },
 
     updateInfoWindow: function (object) {
