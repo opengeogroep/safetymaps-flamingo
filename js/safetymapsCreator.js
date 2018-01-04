@@ -205,13 +205,13 @@ safetymaps.safetymapsCreator = {
         if (layer === me.objectLayers.layerCommunicationCoverage) {
             console.log("communication feature selected", e);
             var img = safetymaps.creator.api.imagePath + (f.coverage ? "coverage" : "no_coverage") + ".png";
-            var colums = [
+            var columns = [
                 {text: '<b>' + i18n.t("creator.symbol_" + (f.coverage ? "" : "no_") + "communication_coverage") + '</b>', dataIndex: 1},
                 {text: '<b>' + i18n.t("dialogs.information") + '</b>', dataIndex: 2},
                 {text: '<b>' + i18n.t("creator.communication_alternative") + '</b>', dataIndex: 3}
             ];
             var values = [
-                {1: '<img class="thumb" src="' + img + '>', 2: Mustache.escape(f.info), 3: Mustache.escape(f.alternative)}
+                {1: '<img style="width: 20%" src="' + img + '">', 2: Mustache.escape(f.info), 3: Mustache.escape(f.alternative)}
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
@@ -224,7 +224,7 @@ safetymaps.safetymapsCreator = {
                 {text: '<b>' + i18n.t("dialogs.information") + '</b>', dataIndex: 2}
             ];
             var values = [
-                {1: '<img class="thumb" src="' + img + '" alt="' + f.code + '" title="' + f.code + '">', 2: Mustache.escape(f.description)}
+                {1: '<img style="width: 20%" src="' + img + '" alt="' + f.code + '" title="' + f.code + '">', 2: Mustache.escape(f.description)}
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
