@@ -25,20 +25,27 @@ safetymaps.search = {
     getSearchResult: function (queryId, searchRequestId) {
         var buffer = 300;
         var searchResult = [];
-        var queryFields = ["formele_naam"];
-
-        for (var i = 0; i < this.features.length; i++) {
-            var feature = this.features[i];
-            this.getSearchFeatureData(searchResult, queryFields, [], queryId, feature, buffer);
+        var queryFields = ["formele_naam","informele_naam"];
+        try {
+            for (var i = 0; i < this.features.length; i++) {
+                var feature = this.features[i];
+                this.getSearchFeatureData(searchResult, queryFields, [], queryId, feature, buffer);
+            }
+            var result = {
+                success: true,
+                errorMessage: "",
+                results: searchResult,
+                searchRequestId: searchRequestId
+            };
+        } catch (err) {
+            result = {
+                success: false,
+                errorMessage: err.message,
+                results: [],
+                searchRequestId: searchRequestId
+            };
         }
-        var result = {
-            success: true,
-            errorMessage: "",
-            results: searchResult,
-            searchRequestId: searchRequestId
-        };
-        
-        return result; 
+        return result;
     },
 
     getSearchFeatureData: function (searchResult, queryFields, queryFieldTypes, queryId, feature, buffer) {
