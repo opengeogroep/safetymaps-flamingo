@@ -57,6 +57,36 @@ safetymaps.safetymapsCreator.renderDetails = function (object, window) {
     }
 };
 
+safetymaps.safetymapsCreator.renderOccupancy = function (object, window) {
+    var rows = safetymaps.creator.renderOccupancy(object);
+    var fields = [];
+    var columns = [];
+    var values = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = rows[i];
+        if (i === 0) {
+            for (var key in row) {
+                fields.push(key);
+                columns.push({text: row[key], dataIndex: key});
+            }
+        } else {
+            var obj = {};
+            for (var key in row) {
+                obj[key] = row[key];
+            }
+            values.push(obj);
+        }
+    }
+    var conf = {tabName: i18n.t("creator.occupancy"),
+        fields: fields,
+        columns: columns
+    };
+    if (values && values.length) {
+        window.createGrid(conf, values, {});
+    }
+
+};
+
 safetymaps.safetymapsCreator.renderContacts = function (object, window) {
     var rows = safetymaps.creator.renderContacts(object);
     var fields = [];

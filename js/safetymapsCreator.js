@@ -263,7 +263,7 @@ safetymaps.safetymapsCreator = {
         safetymaps.safetymapsCreator.renderGeneral(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderDetails(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
-        //todo: renderOccupancy
+        safetymaps.safetymapsCreator.renderOccupancy(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderMedia(object, this.conf.clusterWindow);
         //todo embedPDFs
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "danger");
