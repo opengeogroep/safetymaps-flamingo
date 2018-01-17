@@ -5,6 +5,7 @@
         "shortName": "safetymaps",
         "sources": [
             "libs/i18next.js",
+            "libs/jsts.min.js",
             "libs/moment-with-locales.min.js",
             "libs/mustache.min.js",
             "libs/jquery-1.11.0/jquery-1.11.0.min.js",
@@ -15,6 +16,7 @@
             "module/clustering-layer.js",
             "module/object-layers.js",
             "module/object-info.js",
+            "js/safetymapsPrint.js",
             "js/safetymapsSearch.js",
             "js/gui/safetymapsWindow.js",
             "js/safetymapsFlamingo.js",
