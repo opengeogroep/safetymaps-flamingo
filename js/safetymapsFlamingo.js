@@ -19,6 +19,10 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         viewer.components.safetymapsFlamingo.superclass.constructor.call(this, conf);
 
         this.initConfig(conf);
+        this.viewerController.addListener(
+                viewer.viewercontroller.controller.Event.ON_COMPONENTS_FINISHED_LOADING,
+                this.registerFlamingoPrintHandler,
+                this);
 
         this.initApplication(conf);
     },
@@ -52,12 +56,13 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.loadCssFile(cssPath +"css/dbk.css");
 
         me.clusterWindow = Ext.create("viewer.components.safetymapsWindow", {id: "infopanel"});
-        
+
         me.featureInfoWindow = Ext.create("viewer.components.safetymapsWindow", {id: "featureInfo", height:300,width:700});
-        
+
         safetymaps.safetymapsCreator.constructor(me);
-        me.rgisterFlamingoSearchHandler();
+        me.registerFlamingoSearchHandler();
         safetymaps.search.constructor(me);
+        safetymaps.print.constructor(me);
 
     },
 
@@ -69,7 +74,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         document.getElementsByTagName("head")[0].appendChild(fileref);
     },
 
-    rgisterFlamingoSearchHandler: function(){
+    registerFlamingoSearchHandler: function(){
         var me = this;
         var searchComponents = this.config.viewerController.getComponentsByClassName("viewer.components.Search");
         // Register to all search components.
@@ -83,6 +88,24 @@ Ext.define("viewer.components.safetymapsFlamingo", {
                 console.log(queryId, searchRequestId);
                 return safetymaps.search.getSearchResult(queryId, searchRequestId);
             });
-        };
+        }
+        ;
+    },
+
+    registerFlamingoPrintHandler: function () {
+        var me = this;
+        var printComponents = this.viewerController.getComponentsByClassName("viewer.components.Print");
+        // Register to all print components.
+        for (var i = 0; i < printComponents.length; i++) {
+            // Register extra info handler with callback.
+            printComponents[i].registerExtraInfo(this, function () {
+                return safetymaps.print.getObjectProperties();
+            });
+            // Register extra layers handler with callback.
+            printComponents[i].registerExtraLayers(this, function () {
+                return safetymaps.print.getExtraLayers();
+            });
+        }
+        ;
     }
 });
