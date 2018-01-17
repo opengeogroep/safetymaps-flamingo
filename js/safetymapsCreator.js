@@ -32,10 +32,10 @@ safetymaps.safetymapsCreator = {
                 height: 40
             }
         }, this.options);
-
         var pStyles = safetymaps.creator.api.getStyles();
         me.clusteringLayer = new safetymaps.ClusteringLayer(me.options);
-        me.objectLayers = new safetymaps.creator.CreatorObjectLayers();
+        me.conf.map = me.conf.map.getFrameworkMap();
+        me.objectLayers = new safetymaps.creator.CreatorObjectLayers(me.conf);
         //me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers())
         me.createClusterLayer();
     },
@@ -49,12 +49,12 @@ safetymaps.safetymapsCreator = {
 
                     me.clusteringLayer.createLayer();
 
-                    me.conf.map.getFrameworkMap().addLayer(me.clusteringLayer.layer);
+                    me.conf.map.addLayer(me.clusteringLayer.layer);
                     me.clusteringLayer.addFeaturesToCluster(features);
 
                     me.createControls();
 
-                    me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers());
+                    me.conf.map.addLayers(me.objectLayers.createLayers());
                     $(me.clusteringLayer).on("object_selected", function (event, feature) {
                         me.clusterObjectSelected(feature);
                     });
@@ -63,15 +63,17 @@ safetymaps.safetymapsCreator = {
                     });
 
                     safetymaps.search.createValues(features);
-                    me.activateControles();
+                    me.activateControls();
                 });
     },
 
-    activateControles: function () {
+    activateControls: function () {
         var me = this;
         $.each(me.objectLayers.selectLayers, function (i, l) {
             me.selectControl.layers.push(l);
-            me.hoverControl.layers.push(l);
+            if (l.hover) {
+                me.hoverControl.layers.push(l);
+            }
             l.events.register("featureselected", me, me.objectLayerFeatureSelected);
             l.events.register("featureunselected", me, function () {
                 me.conf.featureInfoWindow.window.hide();
@@ -92,7 +94,7 @@ safetymaps.safetymapsCreator = {
                     renderIntent: "temporary"
                 }
         );
-        me.conf.map.getFrameworkMap().addControl(me.hoverControl);
+        me.conf.map.addControl(me.hoverControl);
 
         me.selectControl = new OpenLayers.Control.SelectFeature(
                 [me.clusteringLayer.layer],
@@ -102,7 +104,7 @@ safetymaps.safetymapsCreator = {
                     multiple: false
                 }
         );
-        me.conf.map.getFrameworkMap().addControl(me.selectControl);
+        me.conf.map.addControl(me.selectControl);
 
     },
 
@@ -157,7 +159,7 @@ safetymaps.safetymapsCreator = {
 
         if (xyToZoom) {
             console.log("zooming to selected object at ", xyToZoom);
-            me.conf.map.getFrameworkMap().setCenter(new OpenLayers.LonLat(xyToZoom.x, xyToZoom.y), 13);
+            me.conf.map.setCenter(new OpenLayers.LonLat(xyToZoom.x, xyToZoom.y), 13);
         }
 
         // Get object details
