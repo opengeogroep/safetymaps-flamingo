@@ -8,6 +8,7 @@
 Ext.define("viewer.components.safetymapsFlamingo", {
     extend: "viewer.components.Component",
     config: {},
+    option: {},
     viewerController: null,
     map: null,
     basePath: "",
@@ -31,7 +32,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         var me = this;
         me.viewerController = me.config.viewerController;
         me.map = me.viewerController.mapComponent.getMap();
-
+        
         safetymaps.creator.api.basePath = conf.dataPath + "/"; // path to safetymaps-server
         if (actionBeans && actionBeans["componentresource"]) {
             me.basePath = actionBeans["componentresource"];
@@ -40,7 +41,26 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         } else {
             me.basePath = "";
         }
+        me.options = {
+            zoom: 13,
+            // Set to true to enable style scaling according to map scale
+            styleScaleAdjust: true,
+            // Scale at which scaled values are returned as original
+            originalScale: 595.2744,
+            // User style value adjustment (before scaling)
+            styleSizeAdjust: 0,
 
+            alwaysShowDbkFeature: true,
+
+            noLineScaling: true,
+
+            featureLabelResolution: 6.72,
+
+            dbkLayersMinResolution: 0,
+
+            forcePDFJS: true
+        };
+        
         i18n.init({
             lng: "nl",
             debug: false,
@@ -74,7 +94,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         document.getElementsByTagName("head")[0].appendChild(fileref);
     },
 
-    registerFlamingoSearchHandler: function(){
+    registerFlamingoSearchHandler: function () {
         var me = this;
         var searchComponents = this.config.viewerController.getComponentsByClassName("viewer.components.Search");
         // Register to all search components.
