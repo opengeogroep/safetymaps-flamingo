@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+var dbkjsLang = "nl";
 
 Ext.define("viewer.components.safetymapsFlamingo", {
     extend: "viewer.components.Component",
@@ -62,7 +63,8 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         };
         
         i18n.init({
-            lng: "nl",
+            lng: dbkjsLang,
+            fallbackLng: 'en',
             debug: false,
             resGetPath: me.basePath + "locales/__lng__/translation.json",
             postProcess: "doReplacements"
