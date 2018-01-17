@@ -204,7 +204,19 @@ safetymaps.safetymapsCreator = {
         var layer = e.feature.layer;
         var f = e.feature.attributes;
         me.conf.featureInfoWindow.window.removeAll();
-        if (layer === me.objectLayers.layerCommunicationCoverage) {
+        if (layer === me.objectLayers.layerFireCompartmentation) {
+            console.log("FireCompartmentation feature selected", e);
+            var language = i18n.options.lng === 'nl' ? f.style.nl : f.style.en;
+            var columns = [
+                {text: '<b>'+i18n.t("dialogs.information")+'</b>', dataIndex: 1}
+            ];
+            var values = [
+                {1: language}
+            ];
+            var conf = {tabName: "", feature: true, fields: [], columns: columns};
+            me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.fire_compartment"));
+            me.conf.featureInfoWindow.createGrid(conf, values, {});
+        } else if (layer === me.objectLayers.layerCommunicationCoverage) {
             console.log("communication feature selected", e);
             var img = safetymaps.creator.api.imagePath + (f.coverage ? "coverage" : "no_coverage") + ".png";
             var columns = [
