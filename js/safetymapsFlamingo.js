@@ -45,7 +45,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.options = {
             zoom: 13,
             // Set to true to enable style scaling according to map scale
-            styleScaleAdjust: true,
+            styleScaleAdjust: conf.scaling,
             // Scale at which scaled values are returned as original
             originalScale: 595.2744,
             // User style value adjustment (before scaling)
@@ -71,7 +71,8 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         });
         me.imagePath = me.basePath + "/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
-        safetymaps.creator.api.mediaPath = "https://vrz-acceptatie-mobiel.safetymaps.nl/media/";
+        safetymaps.creator.api.mediaPath = "../media/";// what is the correct path?
+        me.mediaPath = "../media/";// what is the correct path?
 
         var cssPath = me.basePath.replace("resource=", "mimeType=text/css&resource=");
         me.loadCssFile(cssPath+"libs/bootstrap-3.2.0-dist/css/bootstrap.min.css");

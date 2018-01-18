@@ -47,6 +47,15 @@ Ext.define("viewer.components.CustomConfiguration",{
                     value: this.configObject.dataPath || ''
                 },{
                     xtype: 'label',
+                    text: 'scaling',
+                    style: 'font-weight:bold;'
+                },{
+                    xtype: 'checkbox',
+                    name: 'scaling',
+                    fieldLabel: 'Scale icons based on zoom',
+                    checked: typeof this.configObject.scaling !== "undefined" ? this.configObject.scaling : true
+                },{
+                    xtype: 'label',
                     text: 'WMS service met lagen voor het printen',
                     style: 'font-weight:bold;'
                 },{
