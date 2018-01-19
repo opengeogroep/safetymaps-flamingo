@@ -118,9 +118,21 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
 
 safetymaps.safetymapsCreator.renderMedia = function (object, window) {
     var carousel = safetymaps.creator.renderMedia(object);
+    safetymaps.safetymapsCreator.embedPDFs(carousel);
+    
     if (carousel && carousel.length) {
         window.createCarousel(carousel);
-    }
+    };
+};
+
+safetymaps.safetymapsCreator.embedPDFs = function(element) {
+    $.each($(element).find(".pdf-embed"), function(i, pdf) {
+        if(pdf.children.length === 0) {
+            var url = safetymaps.utils.getAbsoluteUrl($(pdf).attr("data-url"));
+            console.log($(pdf));
+            $(pdf)[0].outerHTML = '<div><a href="' + url + '" target="_blank"><h2>' + "download"  + '</h2></a></div>'
+        }         
+    });
 };
 
 safetymaps.safetymapsCreator.renderFloors = function (object, window) {
