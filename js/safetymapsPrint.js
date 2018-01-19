@@ -120,6 +120,10 @@ safetymaps.print = {
         return newDbkObject;
     },
 
+    stripSeconds: function (s) {
+        return s.substring(0,2)+":"+s.substring(3,5);
+    },
+
     getExtraLayers: function () {
         var result = [{
                 url: this.options.printWMSPath,
