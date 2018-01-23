@@ -201,14 +201,37 @@ safetymaps.safetymapsCreator = {
         var layer = e.feature.layer;
         var f = e.feature.attributes;
         me.conf.featureInfoWindow.window.removeAll();
-        if (layer === me.objectLayers.layerFireCompartmentation) {
+        if (layer === me.objectLayers.layerCustomPolygon) {
+            console.log("CustomPolygon feature selected", e);
+            var desc = f.style.en;
+            if(f.style.hasOwnProperty(dbkjsLang)) {
+                if(f.style[dbkjsLang] !== "") {
+                    desc = f.style[dbkjsLang];
+                }
+            }
+            var columns = [
+                {text: "", dataIndex: 1,renderer:function(value,meta){meta.tdAttr = 'style="background:'+f.style.color+';"';return value;}},
+                {text: '<b>'+i18n.t("dialogs.information")+'</b>', dataIndex: 2}
+            ];
+            var values = [
+                {1:'',2: desc}
+            ];
+            var conf = {tabName: "", feature: true, fields: [], columns: columns};
+            me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.area"));
+            me.conf.featureInfoWindow.createGrid(conf, values, {});
+        } else if (layer === me.objectLayers.layerFireCompartmentation) {
             console.log("FireCompartmentation feature selected", e);
-            var language = i18n.options.lng === 'nl' ? f.style.nl : f.style.en;
+            var desc = f.style.en;
+            if(f.style.hasOwnProperty(dbkjsLang)) {
+                if(f.style[dbkjsLang] !== "") {
+                    desc = f.style[dbkjsLang];
+                }
+            }
             var columns = [
                 {text: '<b>'+i18n.t("dialogs.information")+'</b>', dataIndex: 1}
             ];
             var values = [
-                {1: language}
+                {1: desc}
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.fire_compartment"));
@@ -231,7 +254,7 @@ safetymaps.safetymapsCreator = {
             console.log("symbol selected", e);
             var img = safetymaps.creator.api.imagePath + 'symbols/' + f.code + '.png';
             var columns = [
-                {text: '<b>' + i18n.t("creator.symbol_" + f.code) + '</b>', dataIndex: 1},
+                {text: '<b>' + i18n.t("symbol." + f.code) + '</b>', dataIndex: 1},
                 {text: '<b>' + i18n.t("dialogs.information") + '</b>', dataIndex: 2}
             ];
             var values = [
@@ -276,7 +299,6 @@ safetymaps.safetymapsCreator = {
         safetymaps.safetymapsCreator.renderContacts(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderOccupancy(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderMedia(object, this.conf.clusterWindow);
-        //todo embedPDFs
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "danger");
         safetymaps.safetymapsCreator.renderFloors(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "normal");
