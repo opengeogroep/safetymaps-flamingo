@@ -24,7 +24,9 @@ Ext.define("viewer.components.CustomConfiguration",{
     form: null,
     constructor: function (parentId, configObject, configPage){
         viewer.components.CustomConfiguration.superclass.constructor.call(this, parentId, configObject, configPage);
-
+        if(!this.configObject.mediaPath){
+            this.configObject.mediaPath = window.location.origin+"/media";
+        }
         this.labelWidth = 150;
         this.form = new Ext.form.FormPanel({
             url: 'Home/SubmitForm',
@@ -45,6 +47,10 @@ Ext.define("viewer.components.CustomConfiguration",{
                     name: 'dataPath',
                     fieldLabel: 'Url van DBK data service:',
                     value: this.configObject.dataPath || ''
+                },{
+                    name: 'mediaPath',
+                    fieldLabel: 'Url van DBK media locatie:',
+                    value: this.configObject.mediaPath || ''
                 },{
                     xtype: 'label',
                     text: 'scaling',
