@@ -130,7 +130,9 @@ safetymaps.safetymapsCreator.embedPDFs = function(element) {
         if(pdf.children.length === 0) {
             var url = safetymaps.utils.getAbsoluteUrl($(pdf).attr("data-url"));
             console.log($(pdf));
-            $(pdf)[0].outerHTML = '<div><a href="' + url + '" target="_blank"><h2>' + "download"  + '</h2></a></div>'
+            $(pdf)[0].outerHTML = '<div><img src="'+safetymaps.creator.api.imagePath+'missing.gif"><div class="carousel-caption"><a href="' + url +
+                        '" target="_blank"><h1><i class="fa fa-external-link fa-3"></i></h1><h2>' +
+                        "Download PDF bestand" + '</h2></a></div></div>';
         }         
     });
 };
