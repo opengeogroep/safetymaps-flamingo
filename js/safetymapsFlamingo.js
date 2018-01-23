@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-var dbkjsLang = "nl";
+var dbkjsLang = "en";
 
 Ext.define("viewer.components.safetymapsFlamingo", {
     extend: "viewer.components.Component",
     config: {},
-    option: {},
+    options: {},
     viewerController: null,
     map: null,
     basePath: "",
@@ -71,9 +71,9 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         });
         me.imagePath = me.basePath + "/assets/";
         safetymaps.creator.api.imagePath = me.imagePath;
-        safetymaps.creator.api.mediaPath = "../media/";// what is the correct path?
-        me.mediaPath = "../media/";// what is the correct path?
-
+        safetymaps.creator.api.mediaPath = conf.mediaPath+"/";// what is the correct path?
+        me.mediaPath = conf.mediaPath+"/";// what is the correct path? "https://vrz-acceptatie-mobiel.safetymaps.nl/media/"
+        
         var cssPath = me.basePath.replace("resource=", "mimeType=text/css&resource=");
         me.loadCssFile(cssPath+"libs/bootstrap-3.2.0-dist/css/bootstrap.min.css");
         me.loadCssFile(cssPath +"css/dbk.css");
