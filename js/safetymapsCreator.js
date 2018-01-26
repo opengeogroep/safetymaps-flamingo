@@ -188,6 +188,12 @@ safetymaps.safetymapsCreator = {
             me.objectLayers.addFeaturesForObject(object);
             me.updateInfoWindow(object);
             me.selectedObject = object;
+            
+            var ids = [object.id];
+            $.each(object.verdiepingen || [], function(i, v) {
+                ids.push(v.id);
+            });
+            this.clusteringLayer.setSelectedIds(ids);
         } catch (error) {
             console.log("Error creating layers for object", object);
             if (error.stack) {
