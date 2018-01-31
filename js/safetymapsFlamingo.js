@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var dbkjsLang = "en";
+var dbkjsLang = "nl";
 
 Ext.define("viewer.components.safetymapsFlamingo", {
     extend: "viewer.components.Component",
