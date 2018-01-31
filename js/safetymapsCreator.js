@@ -21,6 +21,10 @@ safetymaps.safetymapsCreator = {
         this.conf = conf;
         var me = this;
         this.options = $.extend({
+            clusterStrategy: {
+            distance: 80,
+            threshold: 2
+            },
             clusteringSymbol: {
                 icon: conf.imagePath + "cluster.png",
                 width: 51,
