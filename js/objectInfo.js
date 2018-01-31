@@ -32,8 +32,8 @@ safetymaps.safetymapsCreator.renderGeneral = function (object, window) {
 
 safetymaps.safetymapsCreator.renderDetails = function (object, window) {
     var tabs = safetymaps.creator.renderDetails(object);
-    var values = [];
     for (var i = 0; i < tabs.length; i++) {
+        var values = [];
         var fields = [];
         var columns = [];
         var tab = tabs[i];
