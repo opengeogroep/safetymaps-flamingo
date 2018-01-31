@@ -114,8 +114,13 @@ safetymaps.safetymapsCreator = {
         var currentCluster = feature.cluster.slice();
         var features = new Array();
         for (var i = 0; i < currentCluster.length; i++) {
+            var informele_naam = currentCluster[i].attributes.apiObject.informele_naam;
+            var naam = currentCluster[i].attributes.apiObject.formele_naam;
+            if(informele_naam && informele_naam !== naam && informele_naam.trim().length > 0){
+                naam += " (" + informele_naam + ")";
+            }
             var obj = {
-                name: currentCluster[i].attributes.label,
+                name: naam,
                 object: currentCluster[i]
             };
             features.push(obj);
