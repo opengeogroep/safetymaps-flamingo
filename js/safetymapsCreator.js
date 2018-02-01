@@ -80,6 +80,7 @@ safetymaps.safetymapsCreator = {
                 me.hoverControl.layers.push(l);
             }
             l.events.register("featureselected", me, me.objectLayerFeatureSelected);
+            l.events.register("featureunselected", me, function(){me.conf.featureInfoWindow.window.hide();});
         });
         me.hoverControl.activate();
         me.selectControl.activate();
