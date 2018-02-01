@@ -36,7 +36,9 @@ Ext.define("viewer.components.safetymapsWindow", {
             ],
             listeners: {
                 hide: function () {
-                    me.tab.removeAll();
+                    if(me.id === "infopanel"){
+                        me.tab.removeAll();
+                    }
                 },
                 show: function () {
                     if (me.id === "infopanel") {
