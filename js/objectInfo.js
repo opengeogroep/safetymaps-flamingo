@@ -14,7 +14,7 @@ safetymaps.safetymapsCreator.renderGeneral = function (object, window) {
         {text: '', dataIndex: 'l'},
         {text: '', dataIndex: 'html'}
     ];
-    var conf = {tabName: "General",
+    var conf = {tabName: i18n.t("creator.general"),
         fields: fields,
         columns: columns
     };
