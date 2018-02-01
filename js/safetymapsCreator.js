@@ -67,7 +67,8 @@ safetymaps.safetymapsCreator = {
                     });
 
                     safetymaps.search.createValues(features);
-                    me.activateControls();
+                    me.activateControls();    
+                    $(me).triggerHandler("safetymapsInit", me); // fires for the toggle component
                 });
     },
 
