@@ -36,5 +36,24 @@
         ],
         "singleton": true,
         "showHelp": true
+    },
+    {
+        "className": "viewer.components.safetymapsToggle",
+        "name": "Safetymaps Toggle",
+        "shortName": "sfmTgl",
+        "sources": [
+            "js/safetymapsToggle.js"
+        ],
+        "configSource": [
+            "ConfigObject.js",
+            "safetymapsToggle-config.js"
+        ],
+        "restrictions": [
+            "left_menu",
+            "top_menu"
+        ],
+        "closureCompilerSafe": true,
+        "singleton": true,
+        "showHelp": true
     }
 ]
