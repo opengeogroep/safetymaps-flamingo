@@ -101,7 +101,6 @@ Ext.define("viewer.components.safetymapsToggle", {
     },
     //---------------------------------------------------------------------------
     onDbkInitialized: function () {
-        console.log("jaja");
         if (!this.layersVisible) {
             // Show/hide layers.
             this.updateMap(false);
@@ -133,14 +132,20 @@ Ext.define("viewer.components.safetymapsToggle", {
     },
     //---------------------------------------------------------------------------
     updateMap: function (visible) {
-
+        if(visible){
+            safetymaps.safetymapsCreator.hoverControl.activate();
+            safetymaps.safetymapsCreator.selectControl.activate();
+        }
         // Show/hide Feature layer.
         if (safetymaps.safetymapsCreator && safetymaps.safetymapsCreator.clusteringLayer.layer) {
             safetymaps.safetymapsCreator.clusteringLayer.layer.setVisibility(visible);
+            safetymaps.safetymapsCreator.selectedObject = null;
+            safetymaps.safetymapsCreator.clusteringLayer.setSelectedIds("");
         }
 
         if (safetymaps.safetymapsCreator.objectLayers.layers && safetymaps.safetymapsCreator.objectLayers.layers.length > 0) {
             $.each(safetymaps.safetymapsCreator.objectLayers.layers, function (i, l) {
+                l.destroyFeatures();
                 l.setVisibility(visible);
             });
         }
