@@ -80,7 +80,12 @@ safetymaps.safetymapsCreator = {
                 me.hoverControl.layers.push(l);
             }
             l.events.register("featureselected", me, me.objectLayerFeatureSelected);
-            l.events.register("featureunselected", me, function(){me.conf.featureInfoWindow.window.hide();});
+            l.events.register("featureunselected", me, function(e){
+                me.conf.featureInfoWindow.window.hide();
+                if (e.feature.layer === me.objectLayers.layerCustomPolygon) {
+                    e.feature.layer.redraw();
+                }
+            });
         });
         me.hoverControl.activate();
         me.selectControl.activate();
@@ -236,6 +241,7 @@ safetymaps.safetymapsCreator = {
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.area"));
             me.conf.featureInfoWindow.createGrid(conf, values, {});
+            layer.redraw();
         } else if (layer === me.objectLayers.layerFireCompartmentation) {
             console.log("FireCompartmentation feature selected", e);
             var desc = f.style.en;
