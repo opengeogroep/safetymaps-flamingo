@@ -40,8 +40,11 @@ safetymaps.safetymapsCreator.renderDetails = function (object, window) {
         $.each(tab.rows, function (i, row) {
             if (i === 0) {
                 for (var key in row) {
+                    var columnConf ={text: row[key], dataIndex: key};
+                    if(row[key].indexOf("Soort")!== -1){columnConf.width = 20;}
+                    else{columnConf.width = 'auto';}
                     fields.push(key);
-                    columns.push({text: row[key], dataIndex: key});
+                    columns.push(columnConf);
                 }
             } else if (row.t || row.html) {
                 row.html = row.html ? row.html : Mustache.escape(row.t);
@@ -64,18 +67,22 @@ safetymaps.safetymapsCreator.renderOccupancy = function (object, window) {
     var values = [];
     for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
-        if (i === 0) {
-            for (var key in row) {
+        var obj = {};
+        for (var key = 0; key <row.length; key++){
+            if (i === 0) {
+                var columnConf ={text: row[key], dataIndex: key};
+                if(key === row.length -1){
+                    columnConf.width = 125;
+                }else{
+                    columnConf.width = 'auto';
+                }
                 fields.push(key);
-                columns.push({text: row[key], dataIndex: key});
+                columns.push(columnConf);
+            } else {
+                obj[key] = row[key];        
             }
-        } else {
-            var obj = {};
-            for (var key in row) {
-                obj[key] = row[key];
-            }
-            values.push(obj);
         }
+        if (i !== 0) values.push(obj);
     }
     var conf = {tabName: i18n.t("creator.occupancy"),
         fields: fields,
