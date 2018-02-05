@@ -102,6 +102,8 @@ safetymaps.safetymapsCreator = {
                     renderIntent: "temporary"
                 }
         );
+        me.hoverControl.handlers.feature.stopDown = false;
+        me.hoverControl.handlers.feature.stopUp = false;
         me.conf.map.addControl(me.hoverControl);
 
         me.selectControl = new OpenLayers.Control.SelectFeature(
@@ -112,6 +114,8 @@ safetymaps.safetymapsCreator = {
                     multiple: false
                 }
         );
+        me.selectControl.handlers.feature.stopDown = false;
+        me.selectControl.handlers.feature.stopUp = false;
         me.conf.map.addControl(me.selectControl);
 
     },
