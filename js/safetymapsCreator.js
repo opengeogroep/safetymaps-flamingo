@@ -79,6 +79,7 @@ safetymaps.safetymapsCreator = {
             if (l.hover) {
                 me.hoverControl.layers.push(l);
             }
+            me.conf.map.setLayerIndex(l,90+i);
             l.events.register("featureselected", me, me.objectLayerFeatureSelected);
             l.events.register("featureunselected", me, function(e){
                 me.conf.featureInfoWindow.window.hide();
