@@ -54,7 +54,7 @@ Ext.define("viewer.components.safetymapsWindow", {
         });
     },
 
-    createGrid: function (config, items, callback) {
+    createGrid: function (config, items, callbackItemClick,callbackItemOver={}) {
         var store = Ext.create('Ext.data.Store', {
             storeId: config.tabName + "Store",
             fields: config.fields,
@@ -67,7 +67,8 @@ Ext.define("viewer.components.safetymapsWindow", {
             store: store,
             columns: config.columns,
             listeners: {
-                itemclick: callback
+                itemclick: callbackItemClick,
+                itemmouseenter:callbackItemOver,
             }
         });
         if (config.feature) {
