@@ -82,6 +82,10 @@ safetymaps.safetymapsCreator = {
             me.conf.map.setLayerIndex(l,90+i);
             l.events.register("featureselected", me, me.objectLayerFeatureSelected);
             l.events.register("featureunselected", me, function(e){
+                if(e.feature.attributes.temp){
+                    delete e.feature.attributes.temp;
+                    return;
+                }
                 me.conf.featureInfoWindow.window.hide();
                 if (e.feature.layer === me.objectLayers.layerCustomPolygon) {
                     e.feature.layer.redraw();
