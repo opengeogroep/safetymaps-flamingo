@@ -61,7 +61,11 @@ Ext.define("viewer.components.safetymapsFlamingo", {
 
             forcePDFJS: true
         };
-        
+        if(dbkjsLang){
+            moment.locale(dbkjsLang);
+        } else {
+            moment.locale("en");
+        }
         i18n.init({
             lng: dbkjsLang,
             fallbackLng: 'en',
@@ -86,7 +90,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.registerFlamingoSearchHandler();
         safetymaps.search.constructor(me);
         safetymaps.print.constructor(me);
-
+        
     },
 
     loadCssFile: function (filename) {
