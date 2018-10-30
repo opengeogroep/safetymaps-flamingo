@@ -178,12 +178,16 @@ safetymaps.safetymapsCreator.renderFloors = function (object, window) {
 safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
     var rows;
     var name;
+    var layer;
+    
     if (type === "normal") {
         name = i18n.t("creator.symbols");
-        rows = safetymaps.creator.renderSymbols(object);
+        rows = safetymaps.creator.renderSymbols(object,true);
+        layer = safetymaps.safetymapsCreator.objectLayers.layerSymbols;
     } else if (type === "danger") {
         name = i18n.t("creator.danger_symbols");
         rows = safetymaps.creator.renderDangerSymbols(object);
+        layer = safetymaps.safetymapsCreator.objectLayers.layerDangerSymbols;
     }
     var fields = [];
     var columns = [];
@@ -196,7 +200,7 @@ safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
                 columns.push({text: row[key], dataIndex: key});
             }
         } else {
-            var obj = {};
+            var obj = {id:i-1};
             for (var key in row) {
                 obj[key] = row[key];
             }
@@ -208,7 +212,20 @@ safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
         columns: columns
     };
     if (values && values.length) {
-        window.createGrid(conf, values, {});
+        window.createGrid(conf, values,
+        function(view,record,item,index,event,eventOpts){
+        },
+        function(view,record,item,index,event,eventOpts){
+            var selectedFeature = layer.selectedFeatures[0];
+            if(selectedFeature){
+                selectedFeature.attributes.temp = true;
+                safetymaps.safetymapsCreator.selectControl.unselect(selectedFeature);
+            }
+            var f = layer.getFeaturesByAttribute("index",/<id>(.*?)<\/id>/.exec(record.data[0])[1]);
+            if(f){
+                safetymaps.safetymapsCreator.selectControl.select(f[0]);
+            }
+        });
     }
 
 };
