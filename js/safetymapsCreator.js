@@ -126,6 +126,7 @@ safetymaps.safetymapsCreator = {
         var me = this;
         //clear the window
         this.conf.clusterWindow.tab.removeAll();
+        this.conf.clusterWindow.window.setTitle("infopanel");
 
         var currentCluster = feature.cluster.slice();
         var features = new Array();
@@ -331,5 +332,12 @@ safetymaps.safetymapsCreator = {
         safetymaps.safetymapsCreator.renderFloors(object, this.conf.clusterWindow);
         safetymaps.safetymapsCreator.renderSymbols(object, this.conf.clusterWindow, "normal");
         this.conf.clusterWindow.window.show();
+        if(object.informele_naam){ 
+            this.conf.clusterWindow.window.setTitle(object.informele_naam);
+        } else if(object.formele_naam){ 
+            this.conf.clusterWindow.window.setTitle(object.formele_naam);
+        } else {
+            this.conf.clusterWindow.window.setTitle("(In)formele naam ontbreekt");
+        }
     }
 };
