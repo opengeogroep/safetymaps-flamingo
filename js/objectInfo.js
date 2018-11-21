@@ -26,7 +26,7 @@ safetymaps.safetymapsCreator.renderGeneral = function (object, window) {
             values.push(row);
         }
     });
-    window.createGrid(conf, values, {});
+    window.createGrid(conf, values, false,false);
 
 };
 
@@ -56,7 +56,7 @@ safetymaps.safetymapsCreator.renderDetails = function (object, window) {
             columns: columns
         };
 
-        window.createGrid(conf, values, {});
+        window.createGrid(conf, values, false,false);
     }
 };
 
@@ -89,7 +89,7 @@ safetymaps.safetymapsCreator.renderOccupancy = function (object, window) {
         columns: columns
     };
     if (values && values.length) {
-        window.createGrid(conf, values, {});
+        window.createGrid(conf, values, false,false);
     }
 
 };
@@ -119,7 +119,7 @@ safetymaps.safetymapsCreator.renderContacts = function (object, window) {
         columns: columns
     };
     if (values && values.length) {
-        window.createGrid(conf, values, {});
+        window.createGrid(conf, values, false,false);
     }
 };
 
@@ -171,7 +171,7 @@ safetymaps.safetymapsCreator.renderFloors = function (object, window) {
     };
     if (values && values.length) {
         var callback = {scope: me, fn: me.floorClicked};
-        window.createGrid(conf, values, callback);
+        window.createGrid(conf, values, callback,false);
     }
 };
 

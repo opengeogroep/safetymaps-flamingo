@@ -148,7 +148,7 @@ safetymaps.safetymapsCreator = {
         }
         var callback = {scope: me, fn: me.clusterListClicked};
         var config = {tabName: "cluster", fields: ["name"], columns: [{text: 'Name', dataIndex: 'name'}]};
-        this.conf.clusterWindow.createGrid(config, features, callback);
+        this.conf.clusterWindow.createGrid(config, features, callback,false);
         this.conf.clusterWindow.window.show();
     },
 
@@ -250,7 +250,7 @@ safetymaps.safetymapsCreator = {
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.area"));
-            me.conf.featureInfoWindow.createGrid(conf, values, {});
+            me.conf.featureInfoWindow.createGrid(conf, values, false,false);
             layer.redraw();
         } else if (layer === me.objectLayers.layerFireCompartmentation) {
             console.log("FireCompartmentation feature selected", e);
@@ -268,7 +268,7 @@ safetymaps.safetymapsCreator = {
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.fire_compartment"));
-            me.conf.featureInfoWindow.createGrid(conf, values, {});
+            me.conf.featureInfoWindow.createGrid(conf, values, false,false);
         } else if (layer === me.objectLayers.layerCommunicationCoverage) {
             console.log("communication feature selected", e);
             var img = safetymaps.creator.api.imagePath + (f.coverage ? "coverage" : "no_coverage") + ".png";
@@ -282,7 +282,7 @@ safetymaps.safetymapsCreator = {
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
-            me.conf.featureInfoWindow.createGrid(conf, values, {});
+            me.conf.featureInfoWindow.createGrid(conf, values, false,false);
         } else if (layer === me.objectLayers.layerSymbols) {
             console.log("symbol selected", e);
             var img = safetymaps.creator.api.imagePath + 'symbols/' + f.code + '.png';
@@ -295,7 +295,7 @@ safetymaps.safetymapsCreator = {
             ];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
-            me.conf.featureInfoWindow.createGrid(conf, values, {});
+            me.conf.featureInfoWindow.createGrid(conf, values, false,false);
         } else if (layer === me.objectLayers.layerDangerSymbols) {
             console.log("danger symbol selected", e);
             var columns = [
@@ -320,7 +320,7 @@ safetymaps.safetymapsCreator = {
             var values = [obj];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.danger_symbols"));
-            me.conf.featureInfoWindow.createGrid(conf, values, {});
+            me.conf.featureInfoWindow.createGrid(conf, values, false,false);
         }
         this.conf.featureInfoWindow.window.show();
     },
