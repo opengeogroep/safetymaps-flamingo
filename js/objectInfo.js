@@ -221,7 +221,7 @@ safetymaps.safetymapsCreator.renderSymbols = function (object, window, type) {
                 selectedFeature.attributes.temp = true;
                 safetymaps.safetymapsCreator.selectControl.unselect(selectedFeature);
             }
-            var f = layer.getFeaturesByAttribute("index",/<id>(.*?)<\/id>/.exec(record.data[0])[1]);
+            var f = layer.getFeaturesByAttribute("index",$(record.data[0]).attr("id"));
             if(f){
                 safetymaps.safetymapsCreator.selectControl.select(f[0]);
             }
