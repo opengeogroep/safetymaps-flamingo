@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/* global safetymaps, Ext, moment, actionBeans */
+
 var dbkjsLang = "nl";
 
 Ext.define("viewer.components.safetymapsFlamingo", {
@@ -25,7 +27,10 @@ Ext.define("viewer.components.safetymapsFlamingo", {
                 viewer.viewercontroller.controller.Event.ON_COMPONENTS_FINISHED_LOADING,
                 this.registerFlamingoPrintHandler,
                 this);
-
+        this.viewerController.addListener(
+                viewer.viewercontroller.controller.Event.ON_COMPONENTS_FINISHED_LOADING,
+                this.registerFlamingoSearchHandler,
+                this);
         this.initApplication(conf);
     },
 
@@ -87,7 +92,6 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         me.featureInfoWindow = Ext.create("viewer.components.safetymapsWindow", {id: "featureInfo", height:300,width:700});
 
         safetymaps.safetymapsCreator.constructor(me);
-        me.registerFlamingoSearchHandler();
         safetymaps.search.constructor(me);
         safetymaps.print.constructor(me);
         
@@ -126,11 +130,19 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         for (var i = 0; i < printComponents.length; i++) {
             // Register extra info handler with callback.
             printComponents[i].registerExtraInfo(this, function () {
-                return safetymaps.print.getObjectProperties();
+                if(safetymaps.safetymapsCreator.clusteringLayer.layer.visibility){
+                    return safetymaps.print.getObjectProperties();
+                } else {
+                    return {};
+                }
             });
             // Register extra layers handler with callback.
             printComponents[i].registerExtraLayers(this, function () {
-                return safetymaps.print.getExtraLayers();
+                if(safetymaps.safetymapsCreator.clusteringLayer.layer.visibility){
+                    return safetymaps.print.getExtraLayers();
+                } else {
+                    return [];
+                }
             });
         }
         ;
