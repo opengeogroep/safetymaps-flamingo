@@ -85,7 +85,7 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         
         var cssPath = me.basePath.replace("resource=", "mimeType=text/css&resource=");
         me.loadCssFile(cssPath+"libs/bootstrap-3.2.0-dist/css/bootstrap.min.css");
-        me.loadCssFile(cssPath +"css/dbk.css");
+        me.loadCssFile(cssPath +"css/safetymaps.css");
 
         me.clusterWindow = Ext.create("viewer.components.safetymapsWindow", {id: "infopanel"});
 
