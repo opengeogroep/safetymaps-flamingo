@@ -6,6 +6,7 @@
 
 
 var safetymaps = safetymaps || {};
+var dkjs = {};
 
 safetymaps.safetymapsCreator = {
     conf: null,
@@ -42,6 +43,7 @@ safetymaps.safetymapsCreator = {
         me.objectLayers = new safetymaps.creator.CreatorObjectLayers(me.conf);
         //me.conf.map.getFrameworkMap().addLayers(me.objectLayers.createLayers())
         me.createClusterLayer();
+        dbkjs = me.conf;
     },
 
     //creates the clusterLayer with the features and register for feature/cluster clicked event
