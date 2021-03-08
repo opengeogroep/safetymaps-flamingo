@@ -47,6 +47,13 @@ Ext.define("viewer.components.safetymapsFlamingo", {
         } else {
             me.basePath = "";
         }
+        me.modules = {
+            safetymaps_creator: {
+                options: {
+                    hideTabs: ""
+                }
+            }
+        }
         me.options = {
             zoom: 13,
             // Set to true to enable style scaling according to map scale
