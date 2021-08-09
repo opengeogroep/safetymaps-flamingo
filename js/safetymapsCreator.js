@@ -299,7 +299,6 @@ safetymaps.safetymapsCreator = {
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.symbols"));
             me.conf.featureInfoWindow.createGrid(conf, values, false,false);
         } else if (layer === me.objectLayers.layerDangerSymbols) {
-            console.log("danger symbol selected", e);
             var columns = [
                 {text: '<b>' + i18n.t("creator.danger_symbol_icon") + '</b>', dataIndex: 1},
                 {text: '<b>' + i18n.t("creator.danger_symbol_hazard_identifier") + '</b>', dataIndex: 2},
@@ -307,18 +306,20 @@ safetymaps.safetymapsCreator = {
                 {text: '<b>' + i18n.t("creator.danger_symbol_quantity") + '</b>', dataIndex: 4},
                 {text: '<b>' + i18n.t("creator.danger_symbol_information") + '</b>', dataIndex: 5}
             ];
-            var obj = JSON.parse(Mustache.render('{"1":' +
-                    '"<img style=' + "width: 20%" + ' src=' + "{{img}}" + ' alt=' + "{{symbolName}}" + ' title=' + "{{symbolName}}" + '>",' +
-                    '"2":' + '"<div class=' + "gevicode" + '>{{f.geviCode}}</div><div class=' + "unnummer" + '>{{f.unNr}}</div>",' +
-                    '"3":' + '"{{f.substance_name}}",' +
-                    '"4":' + '"{{f.amount}}",' +
-                    '"4":' + '"{{f.description}}"' +
-                    '}',
-                    {
-                        img: safetymaps.creator.api.imagePath + 'danger_symbols/' + f.symbol + '.png',
-                        symbolName: i18n.t("creator.danger_symbol_" + f.symbol),
-                        f: f
-                    }));
+            var obj = {
+                1: '<img style="width: 20%" src="{{img}}" alt="{{symbolName}}" title="{{symbolName}}">',
+                2: '<div class="gevicode">{{f.geviCode}}</div><div class="unnummer">{{f.unNr}}</div>',
+                3: '{{f.substance_name}}',
+                4: '{{f.amount}}',
+                5: '{{f.description}}'
+            };
+            for (idx in obj) { 
+                obj[idx] = Mustache.render(obj[idx], { 
+                    img: safetymaps.creator.api.imagePath + 'danger_symbols/' + f.symbol + '.png',
+                    symbolName: i18n.t("creator.danger_symbol_" + f.symbol),
+                    f: f
+                });
+            };
             var values = [obj];
             var conf = {tabName: "", feature: true, fields: [], columns: columns};
             me.conf.featureInfoWindow.window.setTitle(i18n.t("creator.danger_symbols"));
